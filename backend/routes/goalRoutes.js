@@ -6,4 +6,4 @@ router.route("/").post(setGoal).get(getGoals);
 
 router.route("/:id").put(updateGoal).delete(deleteGoal);
 
-module.exports = router
+module.exports = router;
