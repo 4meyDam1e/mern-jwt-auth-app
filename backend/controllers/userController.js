@@ -83,14 +83,8 @@ const loginUser = asyncHandler(async (req, res) => {
 // @route  GET /api/users/me
 // @access  Private
 const getMe = asyncHandler(async (req, res) => {
-    // User id will should be set in authentication middleware
-    const { id, name, email } = await User.findById(req.user.id);
-
-    res.status(200).json({
-        "_id": id,
-        "name": name,
-        "email": email
-    });
+    // User (without the password) set in authentication middleware
+    res.status(200).json(req.user);
 });
 
 const generateToken = (id) => {

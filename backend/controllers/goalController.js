@@ -13,7 +13,7 @@ const setGoal = asyncHandler(async (req, res) => {
     }
 
     const goal = await Goal.create({
-        // User id will should be set in authentication middleware
+        // User id set in authentication middleware
         user: req.user.id,
         text: req.body.text
     });
@@ -25,7 +25,7 @@ const setGoal = asyncHandler(async (req, res) => {
 // @route  GET /api/goals
 // @access  Private
 const getGoals = asyncHandler(async (req, res) => {
-    // User id will should be set in authentication middleware
+    // User id set in authentication middleware
     const goals = await Goal.find({ user: req.user.id });
 
     res.status(200).json(goals);
@@ -43,17 +43,15 @@ const updateGoal = asyncHandler(async (req, res) => {
         throw new Error("Goal not found");
     }
 
-    // User id will should be set in authentication middleware
-    const user = await User.findById(req.user.id);
-
     // Check for user
-    if (!user) {
+    if (!req.user) {
         res.status(401);
         throw new Error("User not found");
     }
     
     // Make sure the logged in user matches the goal user
-    if (goal.user.toString() !== user.id) {
+    // Logged in user set in authentication middleware
+    if (goal.user.toString() !== req.user.id) {
         res.status(401);
         throw new Error("User not authorized");
     }
@@ -79,17 +77,15 @@ const deleteGoal = asyncHandler(async (req, res) => {
         throw new Error("Goal not found");
     }
 
-    // User id will should be set in authentication middleware
-    const user = await User.findById(req.user.id);
-
     // Check for user
-    if (!user) {
+    if (!req.user) {
         res.status(401);
         throw new Error("User not found");
     }
     
     // Make sure the logged in user matches the goal user
-    if (goal.user.toString() !== user.id) {
+    // Logged in user set in authentication middleware
+    if (goal.user.toString() !== req.user.id) {
         res.status(401);
         throw new Error("User not authorized");
     }
