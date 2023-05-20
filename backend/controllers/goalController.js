@@ -6,12 +6,14 @@ const User = require("../models/userModel");
 // @route  POST /api/goals
 // @access  Private
 const setGoal = asyncHandler(async (req, res) => {
+    // Validate goal data
     if (!req.body.text) {
         res.status(400);
         throw new Error("Please add a text field");
     }
 
     const goal = await Goal.create({
+        // User id will should be set in authentication middleware
         user: req.user.id,
         text: req.body.text
     });
@@ -23,6 +25,7 @@ const setGoal = asyncHandler(async (req, res) => {
 // @route  GET /api/goals
 // @access  Private
 const getGoals = asyncHandler(async (req, res) => {
+    // User id will should be set in authentication middleware
     const goals = await Goal.find({ user: req.user.id });
 
     res.status(200).json(goals);
@@ -40,6 +43,7 @@ const updateGoal = asyncHandler(async (req, res) => {
         throw new Error("Goal not found");
     }
 
+    // User id will should be set in authentication middleware
     const user = await User.findById(req.user.id);
 
     // Check for user
@@ -52,7 +56,7 @@ const updateGoal = asyncHandler(async (req, res) => {
     if (goal.user.toString() !== user.id) {
         res.status(401);
         throw new Error("User not authorized");
-    } 
+    }
 
     const updatedGoal = await Goal.findByIdAndUpdate(req.params.id, 
         req.body, 
@@ -75,6 +79,7 @@ const deleteGoal = asyncHandler(async (req, res) => {
         throw new Error("Goal not found");
     }
 
+    // User id will should be set in authentication middleware
     const user = await User.findById(req.user.id);
 
     // Check for user
