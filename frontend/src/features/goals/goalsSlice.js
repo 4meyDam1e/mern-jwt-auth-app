@@ -27,7 +27,7 @@ export const createGoal = createAsyncThunk("goals/create", async (goal, thunkAPI
 // Get user goals
 export const getGoals = createAsyncThunk("goals/getAll", async (_, thunkAPI) => {
     try {
-        const token = thunkAPI.getState().auth.user.token;
+        const token = thunkAPI.getState().auth.user?.token;
         return await goalsService.getGoals(token);
     } catch (error) {
         const message = (error.response && 
