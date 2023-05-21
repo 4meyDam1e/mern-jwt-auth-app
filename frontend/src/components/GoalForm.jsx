@@ -29,7 +29,7 @@ function GoalForm() {
                 </form>
             </section>
         </>
-    )
+    );
 }
 
 export default GoalForm
